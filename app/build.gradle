@@ -2,13 +2,15 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.bitcoinfollow"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -20,15 +22,77 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    androidExtensions {
+        experimental = true
+    }
+    flavorDimensions "client"
+    productFlavors {
+        bitcoinFollow {
+            dimension "client"
+            applicationIdSuffix ".bitcoinfollow"
+
+            buildConfigField "String", "API_URL", '"https://api.blockchain.info/"'
+        }
+    }
+    // Compile options is necessary for Java Dependencies
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Kotlin
+    implementation kotlinLibraries.kotlin
+
+    // Support
+    implementation supportLibraries.appCompat
+    implementation supportLibraries.cardView
+    implementation supportLibraries.recyclerView
+    implementation supportLibraries.constraintLayout
+    implementation supportLibraries.material
+
+    // ViewModel & LiveData
+    implementation archLibraries.lifecycle
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    kapt archLibraries.lifecycleCompiler
+
+    // Room + Kotlin Extensions and Coroutines
+    implementation archLibraries.roomKtx
+    kapt archLibraries.roomCompiler
+
+    // Koin
+    implementation koinLibraries.koinCore
+    implementation koinLibraries.koinViewModel
+    implementation koinLibraries.koinScope
+
+    // Retrofit
+    implementation retrofitLibraries.retrofit
+    implementation retrofitLibraries.retrofitGsonConverter
+    implementation retrofitLibraries.retrofitHttpLogging
+    implementation retrofitLibraries.retrofitCoroutinesAdapter
+
+    // Timber
+    implementation timberLibraries.timber
+
+    // Testing
+    testImplementation testLibraries.junit
+    androidTestImplementation testLibraries.testRunner
+    androidTestImplementation testLibraries.espresso
+
+    //Shimmer Facebook
+    implementation shimmerLibraries.shimmer
+
+    //Picasso
+    implementation picassoLibraries.picasso
+
+    //Lottie After Effects Anim
+    implementation lottieLibraries.lottie
+
+    //Android Navigation
+    implementation archLibraries.navigationFragmentKtx
+    implementation archLibraries.navigationUiKtx
 }
