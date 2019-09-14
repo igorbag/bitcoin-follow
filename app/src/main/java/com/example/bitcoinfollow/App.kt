@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.bitcoinfollow.di.apiModule
 import com.example.bitcoinfollow.di.networkModule
 import com.example.bitcoinfollow.di.repositoryModule
+import com.example.bitcoinfollow.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.core.context.startKoin
@@ -22,7 +23,7 @@ class App : Application() {
         //Initialising Koin
         startKoin {
             androidContext(this@App)
-            modules(apiModule, networkModule, repositoryModule)
+            modules(apiModule, networkModule, repositoryModule, viewModelModule)
             androidFileProperties()
         }
     }
