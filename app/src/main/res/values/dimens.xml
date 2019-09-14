@@ -2,6 +2,7 @@
 <resources>
     <dimen name="layout_padding">16dp</dimen>
     <dimen name="layout_half_padding">8dp</dimen>
+    <dimen name="layout_small_padding">4dp</dimen>
     <dimen name="layout_medium_padding">20dp</dimen>
     <dimen name="layout_extra_padding">46dp</dimen>
 
