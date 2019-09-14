@@ -36,6 +36,7 @@
         android:layout_marginLeft="@dimen/layout_padding"
         android:layout_marginTop="@dimen/layout_medium_padding"
         android:text="@string/bitcoin_rate"
+        android:textColor="@color/textBlueLight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
@@ -46,18 +47,28 @@
         android:layout_marginTop="@dimen/layout_half_padding"
         android:src="@drawable/ic_bitcoin"
         app:layout_constraintLeft_toLeftOf="@id/tvBitcoinRate"
-        app:layout_constraintTop_toBottomOf="@id/tvBitcoinRate"/>
+        app:layout_constraintTop_toBottomOf="@id/tvBitcoinRate" />
 
     <TextView
         android:id="@+id/tvBitcoinRateValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_half_medium"
-        android:textStyle="bold"
         android:layout_marginLeft="@dimen/layout_small_padding"
         android:text="@string/bitcoin_rate_example"
-        app:layout_constraintTop_toTopOf="@id/ivBitcoin"
+        android:textSize="@dimen/text_size_half_medium"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivBitcoin"
         app:layout_constraintLeft_toRightOf="@id/ivBitcoin"
-        app:layout_constraintBottom_toBottomOf="@id/ivBitcoin"/>
+        app:layout_constraintTop_toTopOf="@id/ivBitcoin" />
+
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="0dp"
+        android:layout_height="320dp"
+        android:layout_margin="@dimen/layout_padding"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBitcoinRateValue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
