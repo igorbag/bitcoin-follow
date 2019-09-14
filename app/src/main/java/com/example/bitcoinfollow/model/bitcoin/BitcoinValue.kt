@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class BitcoinValue(
     val x: Int,
-    val y: Int
+    val y: Float
 ) : Parcelable

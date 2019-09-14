@@ -21,8 +21,8 @@ class BitcoinViewModel(
         viewModelState.value = Result.Loading()
         GlobalScope.launch(Dispatchers.Main) {
             try {
-                val loggedUser = bitcoinRepository.getBitcoinMarketPriceChart()
-                viewModelState.value = Result.Success(loggedUser)
+                val bitcoin = bitcoinRepository.getBitcoinMarketPriceChart()
+                viewModelState.value = Result.Success(bitcoin)
             } catch (e: BusinessException) {
                 viewModelState.value = Result.Error(e.message)
             }

@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.bitcoinfollow.R
 import com.example.bitcoinfollow.model.bitcoin.BitcoinInfo
+import com.example.bitcoinfollow.model.bitcoin.BitcoinValue
 import com.example.bitcoinfollow.utils.Result
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -30,14 +31,11 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view =  inflater.inflate(R.layout.fragment_home, container, false)
         val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
         setUpViewModel(bitcoinInfo)
-        setupLineChartData()
+
+        return view
     }
 
     private fun setUpViewModel(bitcoinInfo: MutableLiveData<Result<BitcoinInfo>>) {
@@ -46,7 +44,6 @@ class HomeFragment : Fragment() {
                 is Result.Loading -> onLoading()
                 is Result.Success -> onSuccess(it.data, bitcoinInfo)
                 is Result.Error -> onError(bitcoinInfo)
-
             }
 
         })
@@ -62,28 +59,26 @@ class HomeFragment : Fragment() {
         observable: MutableLiveData<Result<BitcoinInfo>>
     ) {
         Log.d("Data ->", "Teste ....")
+        bitcoinInfo.values
+        setupLineChartData(bitcoinInfo.values)
+
+
         observable.removeObservers(this)
     }
 
     private fun onError(observable: MutableLiveData<Result<BitcoinInfo>>) {
+        Log.d("onError", "Teste")
         observable.removeObservers(this)
     }
 
 
-    private fun setupLineChartData() {
+    private fun setupLineChartData(listBitcoinValues: List<BitcoinValue>) {
         val chartValues = ArrayList<Entry>()
-        chartValues.add(Entry(0f, 30f))
-        chartValues.add(Entry(1f, 2f))
-        chartValues.add(Entry(2f, 4f))
-        chartValues.add(Entry(3f, 6f))
-        chartValues.add(Entry(4f, 8f))
-        chartValues.add(Entry(5f, 10f))
-        chartValues.add(Entry(6f, 22f))
-        chartValues.add(Entry(7f, 12.5f))
-        chartValues.add(Entry(8f, 22f))
-        chartValues.add(Entry(9f, 32f))
-        chartValues.add(Entry(10f, 54f))
-        chartValues.add(Entry(11f, 28f))
+
+        listBitcoinValues.forEachIndexed { index, bitcoinValue ->
+            chartValues.add(Entry(index.toFloat(), bitcoinValue.y))
+
+        }
 
         val lineDataSet: LineDataSet
         lineDataSet = LineDataSet(chartValues, "DataSet 1")
@@ -126,7 +121,5 @@ class HomeFragment : Fragment() {
 
         lineChart.setScaleEnabled(false)
         lineChart.data = data
-
-
     }
 }
