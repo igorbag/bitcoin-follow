@@ -4,4 +4,10 @@
     <dimen name="layout_half_padding">8dp</dimen>
     <dimen name="layout_medium_padding">20dp</dimen>
     <dimen name="layout_extra_padding">46dp</dimen>
+
+    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_medium">12sp</dimen>
+    <dimen name="text_size_half_medium">20sp</dimen>
+    <dimen name="text_size_larger">24sp</dimen>
+    <dimen name="text_size_extra_larger">60sp</dimen>
 </resources>
