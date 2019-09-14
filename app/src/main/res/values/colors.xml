@@ -6,4 +6,5 @@
     <color name="textGray">#434343</color>
     <color name="textGrayLight">#C4C4C4</color>
     <color name="textBlueLight">#9B9AEC</color>
+    <color name="colorLineAxisChart">#403CDE</color>
 </resources>
