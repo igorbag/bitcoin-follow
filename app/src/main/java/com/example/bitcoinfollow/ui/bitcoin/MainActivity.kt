@@ -1,7 +1,8 @@
-package com.example.bitcoinfollow
+package com.example.bitcoinfollow.ui.bitcoin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.bitcoinfollow.R
 
 class MainActivity : AppCompatActivity() {
 
