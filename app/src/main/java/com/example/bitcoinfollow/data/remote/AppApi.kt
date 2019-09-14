@@ -1,12 +1,13 @@
 package com.example.bitcoinfollow.data.remote
 
+import com.example.bitcoinfollow.model.bitcoin.BitcoinInfo
 import kotlinx.coroutines.Deferred
-import retrofit2.http.*
+import retrofit2.http.GET
 
 interface AppApi {
 
-//    @POST("teste")
-//    fun teste(@Body loginRequest: teste): Deferred<teste>
+    @GET("charts/market-price?cors=true&timespan=30days&format=json&lang=pt")
+    fun getBitcoinMarketPriceChart(): Deferred<BitcoinInfo>
 
 
 }
