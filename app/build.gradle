@@ -96,4 +96,7 @@ dependencies {
     //Android Navigation
     implementation archLibraries.navigationFragmentKtx
     implementation archLibraries.navigationUiKtx
+
+    //MPAndroidChart
+    implementation chartLibraries.chart
 }

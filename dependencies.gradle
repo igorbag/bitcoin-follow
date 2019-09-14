@@ -25,6 +25,7 @@ ext {
     espressoVersion = '3.1.0'
     testRunnerVersion = '1.1.0'
     navVersion = '2.1.0'
+    mPAndroidChartVersion = '3.1.0'
 
     gradlePlugins = [
             kotlin : "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
@@ -92,5 +93,9 @@ ext {
 
     lottieLibraries = [
             lottie: "com.airbnb.android:lottie:${lottieVersion}"
+    ]
+
+    chartLibraries = [
+            chart: "com.github.PhilJay:MPAndroidChart:${mPAndroidChartVersion}"
     ]
 }
