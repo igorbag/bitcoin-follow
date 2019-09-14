@@ -2,21 +2,29 @@ package com.example.bitcoinfollow.ui.bitcoin
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.bitcoinfollow.R
+import com.example.bitcoinfollow.model.bitcoin.BitcoinInfo
+import com.example.bitcoinfollow.utils.Result
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 
 class HomeFragment : Fragment() {
+
+    private val bitcoinViewModel: BitcoinViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +35,38 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
+        setUpViewModel(bitcoinInfo)
         setupLineChartData()
+    }
+
+    private fun setUpViewModel(bitcoinInfo: MutableLiveData<Result<BitcoinInfo>>) {
+        bitcoinInfo.observe(this, Observer {
+            when (it) {
+                is Result.Loading -> onLoading()
+                is Result.Success -> onSuccess(it.data, bitcoinInfo)
+                is Result.Error -> onError(bitcoinInfo)
+
+            }
+
+        })
+    }
+
+
+    private fun onLoading() {
+        Log.d("Log -> ", "Loading ....")
+    }
+
+    private fun onSuccess(
+        bitcoinInfo: BitcoinInfo,
+        observable: MutableLiveData<Result<BitcoinInfo>>
+    ) {
+        Log.d("Data ->", "Teste ....")
+        observable.removeObservers(this)
+    }
+
+    private fun onError(observable: MutableLiveData<Result<BitcoinInfo>>) {
+        observable.removeObservers(this)
     }
 
 
@@ -61,7 +100,7 @@ class HomeFragment : Fragment() {
         lineDataSet.setDrawValues(false)
         lineDataSet.setDrawFilled(true)
         val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.shape_graph)
-        lineDataSet.setFillDrawable(drawable)
+        lineDataSet.fillDrawable = drawable
 
 
         lineDataSet.isHighlightEnabled = false
