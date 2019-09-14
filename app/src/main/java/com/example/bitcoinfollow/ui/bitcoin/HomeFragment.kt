@@ -31,11 +31,14 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
         setUpViewModel(bitcoinInfo)
-
-        return view
     }
 
     private fun setUpViewModel(bitcoinInfo: MutableLiveData<Result<BitcoinInfo>>) {
@@ -71,40 +74,15 @@ class HomeFragment : Fragment() {
         observable.removeObservers(this)
     }
 
-
+    //@TODO Extrair todo o gerenciamento do grafico utilizando Builder Pattern
     private fun setupLineChartData(listBitcoinValues: List<BitcoinValue>) {
-        val chartValues = ArrayList<Entry>()
-
-        listBitcoinValues.forEachIndexed { index, bitcoinValue ->
-            chartValues.add(Entry(index.toFloat(), bitcoinValue.y))
-
-        }
-
-        val lineDataSet: LineDataSet
-        lineDataSet = LineDataSet(chartValues, "DataSet 1")
-        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-        lineDataSet.color = Color.WHITE
-
-        lineDataSet.setCircleColor(Color.WHITE)
-        lineDataSet.lineWidth = 2f
-        lineDataSet.setDrawCircleHole(false)
-        lineDataSet.setDrawCircles(true)
-        lineDataSet.setCircleColor(Color.WHITE)
-        lineDataSet.lineWidth = 2f
-        lineDataSet.circleRadius = 5f
-        lineDataSet.setDrawValues(false)
-        lineDataSet.setDrawFilled(true)
-        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.shape_graph)
-        lineDataSet.fillDrawable = drawable
-
-
-        lineDataSet.isHighlightEnabled = false
-
-        val dataSets = ArrayList<ILineDataSet>()
-        dataSets.add(lineDataSet)
+        val chartValues = formatLineBarGraphInformation(listBitcoinValues)
+        val dataSets = setUpDataSetGraph(chartValues)
         val data = LineData(dataSets)
+        setUpLineChart(data)
+    }
 
-        // set data
+    private fun setUpLineChart(data: LineData) {
         lineChart.description.isEnabled = false
         lineChart.legend.isEnabled = false
         lineChart.xAxis.isEnabled = false
@@ -118,8 +96,41 @@ class HomeFragment : Fragment() {
             requireContext(),
             R.color.textBlueLight
         )
-
         lineChart.setScaleEnabled(false)
         lineChart.data = data
+        lineChart.notifyDataSetChanged()
+        lineChart.invalidate()
+    }
+
+    private fun setUpDataSetGraph(chartValues: ArrayList<Entry>): ArrayList<ILineDataSet> {
+        val lineDataSet = LineDataSet(chartValues, "DataSet 1")
+        lineDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+        lineDataSet.setCircleColor(Color.WHITE)
+        lineDataSet.setCircleColor(Color.WHITE)
+        lineDataSet.color = Color.WHITE
+        lineDataSet.isHighlightEnabled = false
+        lineDataSet.fillDrawable =
+            ContextCompat.getDrawable(requireContext(), R.drawable.shape_graph)
+        lineDataSet.lineWidth = 2f
+        lineDataSet.lineWidth = 2f
+        lineDataSet.circleRadius = 5f
+        lineDataSet.setDrawCircleHole(false)
+        lineDataSet.setDrawCircles(true)
+        lineDataSet.setDrawValues(false)
+        lineDataSet.setDrawFilled(true)
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(lineDataSet)
+        return dataSets
+    }
+
+    private fun formatLineBarGraphInformation(listBitcoinValues: List<BitcoinValue>): ArrayList<Entry> {
+        val chartValues = ArrayList<Entry>()
+
+        listBitcoinValues.forEachIndexed { index, bitcoinValue ->
+            chartValues.add(Entry(index.toFloat(), bitcoinValue.y))
+
+        }
+        return chartValues
     }
 }
