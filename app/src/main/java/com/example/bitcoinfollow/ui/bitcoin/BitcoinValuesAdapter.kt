@@ -12,8 +12,7 @@ import java.util.*
 
 
 class BitcoinValuesAdapter(
-    val bitcoins: List<BitcoinValue>,
-    val clickListener: (BitcoinValue) -> Unit
+    val bitcoins: List<BitcoinValue>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount() = bitcoins.size
@@ -25,12 +24,12 @@ class BitcoinValuesAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as PartViewHolder).bind(bitcoins[position], clickListener)
+        (holder as PartViewHolder).bind(bitcoins[position])
     }
 
 
     class PartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(bitcoinValue: BitcoinValue, clickListener: (BitcoinValue) -> Unit) {
+        fun bind(bitcoinValue: BitcoinValue) {
             itemView.tvNameOfMonth.text = convertTimeInMillisToBrDate(bitcoinValue)
             itemView.tvBitcoinRateValue.text = bitcoinValue.y.toString()
         }

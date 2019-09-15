@@ -84,11 +84,12 @@
         android:id="@+id/bottomSheet"
         style="@style/Widget.MaterialComponents.BottomSheet.Modal"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="650dp"
         app:behavior_peekHeight="250dp"
         app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="30dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
         <include layout="@layout/bottom_sheet_list_values_bitcoin" />
 
     </com.google.android.material.card.MaterialCardView>

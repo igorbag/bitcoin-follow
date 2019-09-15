@@ -61,9 +61,9 @@ class HomeFragment : Fragment() {
         bitcoinInfo: BitcoinInfo,
         observable: MutableLiveData<Result<BitcoinInfo>>
     ) {
-        bitcoinInfo.values
         setupLineChartData(bitcoinInfo.values)
         setUpAdapter(bitcoinInfo.values)
+        setUpValueBitcoin(bitcoinInfo.values)
         observable.removeObservers(this)
     }
 
@@ -132,8 +132,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpAdapter(listBitcoinValues: List<BitcoinValue>) {
-        rvBitcoinsValues.adapter = BitcoinValuesAdapter(listBitcoinValues) {
+        rvBitcoinsValues.adapter = BitcoinValuesAdapter(listBitcoinValues)
+    }
 
-        }
+    private fun setUpValueBitcoin(listBitcoinValues: List<BitcoinValue>) {
+        tvBitcoinRateValue.text = listBitcoinValues.last().y.toString()
     }
 }
