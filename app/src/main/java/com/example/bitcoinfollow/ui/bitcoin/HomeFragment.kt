@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import kotlinx.android.synthetic.main.bottom_sheet_list_values_bitcoin.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -52,7 +53,6 @@ class HomeFragment : Fragment() {
         })
     }
 
-
     private fun onLoading() {
         Log.d("Log -> ", "Loading ....")
     }
@@ -61,16 +61,13 @@ class HomeFragment : Fragment() {
         bitcoinInfo: BitcoinInfo,
         observable: MutableLiveData<Result<BitcoinInfo>>
     ) {
-        Log.d("Data ->", "Teste ....")
         bitcoinInfo.values
         setupLineChartData(bitcoinInfo.values)
-
-
+        setUpAdapter(bitcoinInfo.values)
         observable.removeObservers(this)
     }
 
     private fun onError(observable: MutableLiveData<Result<BitcoinInfo>>) {
-        Log.d("onError", "Teste")
         observable.removeObservers(this)
     }
 
@@ -132,5 +129,11 @@ class HomeFragment : Fragment() {
 
         }
         return chartValues
+    }
+
+    private fun setUpAdapter(listBitcoinValues: List<BitcoinValue>) {
+        rvBitcoinsValues.adapter = BitcoinValuesAdapter(listBitcoinValues) {
+
+        }
     }
 }
