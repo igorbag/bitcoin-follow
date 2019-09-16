@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -94,6 +95,12 @@ class HomeFragment : Fragment() {
 
     private fun onError(observable: MutableLiveData<Result<BitcoinInfo>>) {
         progress_bar.visibility = View.GONE
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.app_name)
+            .setMessage(getString(R.string.error_unknown))
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
+        dialog.show()
         observable.removeObservers(this)
     }
 
