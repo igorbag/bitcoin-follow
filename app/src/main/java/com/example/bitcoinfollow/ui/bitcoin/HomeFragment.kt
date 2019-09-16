@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
         setUpViewModel(bitcoinInfo)
+        insertListeners()
     }
 
     private fun setUpViewModel(bitcoinInfo: MutableLiveData<Result<BitcoinInfo>>) {
@@ -54,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onLoading() {
-        Log.d("Log -> ", "Loading ....")
+        progress_bar.visibility = View.VISIBLE
     }
 
     private fun onSuccess(
@@ -64,10 +65,12 @@ class HomeFragment : Fragment() {
         setupLineChartData(bitcoinInfo.values)
         setUpAdapter(bitcoinInfo.values)
         setUpValueBitcoin(bitcoinInfo.values)
+        progress_bar.visibility = View.GONE
         observable.removeObservers(this)
     }
 
     private fun onError(observable: MutableLiveData<Result<BitcoinInfo>>) {
+        progress_bar.visibility = View.GONE
         observable.removeObservers(this)
     }
 
@@ -137,5 +140,12 @@ class HomeFragment : Fragment() {
 
     private fun setUpValueBitcoin(listBitcoinValues: List<BitcoinValue>) {
         tvBitcoinRateValue.text = listBitcoinValues.last().y.toString()
+    }
+
+    private fun insertListeners() {
+        ivRefresh.setOnClickListener {
+            val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
+            setUpViewModel(bitcoinInfo)
+        }
     }
 }
