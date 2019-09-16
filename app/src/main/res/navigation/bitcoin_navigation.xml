@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bitcoin_navigation"
-    app:startDestination="@id/home">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/home"
         android:name="com.example.bitcoinfollow.ui.bitcoin.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.bitcoinfollow.ui.splash.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>
