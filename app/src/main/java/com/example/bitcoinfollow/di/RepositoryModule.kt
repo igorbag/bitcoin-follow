@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-    factory<BitcoinRepository> { BitcoinRepositoryImpl(get()) }
+    factory<BitcoinRepository> { BitcoinRepositoryImpl(get(), get()) }
 
 }
