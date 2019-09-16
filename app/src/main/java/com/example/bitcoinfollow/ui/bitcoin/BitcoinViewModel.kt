@@ -1,5 +1,7 @@
 package com.example.bitcoinfollow.ui.bitcoin
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,7 +35,7 @@ class BitcoinViewModel(
     }
 
 
-    fun save(entity: BitcoinValue) {
+    fun save(entity: List<BitcoinValue>) {
         return bitcoinRepository.save(entity)
     }
 
@@ -46,9 +48,14 @@ class BitcoinViewModel(
     }
 
 
-    fun findAll(): LiveData<BitcoinValue> {
+    fun findAll(): LiveData<List<BitcoinValue>> {
         return bitcoinRepository.findAll()
     }
 
-
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
 }

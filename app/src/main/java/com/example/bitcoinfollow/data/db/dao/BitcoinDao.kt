@@ -11,7 +11,7 @@ import com.example.bitcoinfollow.model.bitcoin.BitcoinValue
 @Dao
 interface BitcoinDao {
     @Insert(onConflict = REPLACE)
-    suspend fun save(entity: BitcoinValue)
+    suspend fun save(entity: List<BitcoinValue>)
 
     @Delete
     suspend fun delete(entity: BitcoinValue)
@@ -20,5 +20,5 @@ interface BitcoinDao {
     fun removeAll()
 
     @Query("SELECT * FROM BitcoinValue")
-    fun findAll(): LiveData<BitcoinValue>
+    fun findAll(): LiveData<List<BitcoinValue>>
 }

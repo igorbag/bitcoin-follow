@@ -17,7 +17,7 @@ class BitcoinRepositoryImpl(private val api: AppApi, private val bitcoinDao: Bit
         return super.handleAsyncCall(api.getBitcoinMarketPriceChart())
     }
 
-    override fun save(entity: BitcoinValue) {
+    override fun save(entity: List<BitcoinValue>) {
         runBlocking {
             launch(Dispatchers.IO) {
                 bitcoinDao.save(entity)
@@ -42,7 +42,7 @@ class BitcoinRepositoryImpl(private val api: AppApi, private val bitcoinDao: Bit
         }
     }
 
-    override fun findAll(): LiveData<BitcoinValue> {
+    override fun findAll(): LiveData<List<BitcoinValue>> {
         return bitcoinDao.findAll()
     }
 

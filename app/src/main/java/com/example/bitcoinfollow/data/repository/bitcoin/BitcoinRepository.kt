@@ -7,8 +7,8 @@ import com.example.bitcoinfollow.model.bitcoin.BitcoinValue
 interface BitcoinRepository {
     suspend fun getBitcoinMarketPriceChart(): BitcoinInfo
 
-    fun save(entity: BitcoinValue)
+    fun save(entity: List<BitcoinValue>)
     fun delete(entity: BitcoinValue)
     fun removeAll()
-    fun findAll(): LiveData<BitcoinValue>
+    fun findAll(): LiveData<List<BitcoinValue>>
 }

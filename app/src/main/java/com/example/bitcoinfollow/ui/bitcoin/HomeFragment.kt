@@ -2,7 +2,6 @@ package com.example.bitcoinfollow.ui.bitcoin
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,9 +37,32 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        verifyDataOrigin()
+        insertListeners()
+    }
+
+    private fun verifyDataOrigin() {
+        when (bitcoinViewModel.isOnline(context!!)) {
+            true -> setUpOnlineData()
+            false -> setUpCachedData()
+        }
+    }
+
+    private fun setUpOnlineData() {
         val bitcoinInfo = bitcoinViewModel.getBitcoinMarketPriceChart()
         setUpViewModel(bitcoinInfo)
-        insertListeners()
+    }
+
+    private fun setUpCachedData() {
+        bitcoinViewModel.findAll().observe(this, Observer<List<BitcoinValue>> { listBitCoinValue ->
+
+            listBitCoinValue?.let {
+                setupLineChartData(it)
+                setUpAdapter(it)
+                setUpValueBitcoin(it)
+            }
+
+        })
     }
 
     private fun setUpViewModel(bitcoinInfo: MutableLiveData<Result<BitcoinInfo>>) {
@@ -66,6 +88,7 @@ class HomeFragment : Fragment() {
         setUpAdapter(bitcoinInfo.values)
         setUpValueBitcoin(bitcoinInfo.values)
         progress_bar.visibility = View.GONE
+        bitcoinViewModel.save(bitcoinInfo.values)
         observable.removeObservers(this)
     }
 
@@ -148,4 +171,5 @@ class HomeFragment : Fragment() {
             setUpViewModel(bitcoinInfo)
         }
     }
+
 }
